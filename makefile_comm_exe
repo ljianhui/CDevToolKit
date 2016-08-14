@@ -1,0 +1,29 @@
+# INC, LIB, TARGET is need define by user before inclue this file
+# The define is such as:
+# INC := -I ../src
+# LIB := -L../lib -lsomelib
+# TARGET := ${basename ${wildcard *.c}}
+
+CC := gcc
+CFLAG += -g -Wall -O
+
+SRC := ${wildcard *.c}
+DEP := $(SRC:.c=.d)
+OBJ := $(SRC:.c=.o)
+
+all: $(OBJ) $(DEP) $(TARGET)
+
+$(TARGET):%:%.o
+	$(CC) -o $@ $< $(INC) $(LIB) $(CFLAG) 
+
+$(OBJ):%.o:%.c
+	$(CC) -c $< -o $@ $(INC) $(CFLAG)
+
+$(DEP):%.d:%.c
+	rm -f $@;
+	$(CC) -MM $< $(INC) > $@
+
+-include $(DEP)
+
+clean:
+	-rm -fr  $(TARGET) *.o *.d

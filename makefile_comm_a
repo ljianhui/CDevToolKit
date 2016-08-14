@@ -1,0 +1,19 @@
+# INC, TARGET is need define by user before inclue this file
+# The define is such as:
+# INC := -I ../src
+# TARGET := libother.a
+
+CC := gcc
+CFLAG += -g -Wall -O
+
+SRC := ${wildcard *.c}
+OBJ := $(SRCS:.c=.o)
+
+all: $(OBJ)
+	ar -r $(TARGET) $(OBJ)
+
+$(OBJ): %.o: %.c
+	$(CC) -c $< -o $@ $(INC) $(CFLAG)
+
+clean:
+	-rm -f $(TARGET) *.o
