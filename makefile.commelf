@@ -26,4 +26,4 @@ $(DEP):%.d:%.c
 -include $(DEP)
 
 clean:
-	-rm -fr  $(TARGET) *.o *.d
+	-rm -f  $(TARGET) *.o *.d
