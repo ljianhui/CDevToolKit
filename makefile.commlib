@@ -7,20 +7,13 @@ CC := gcc
 CFLAG += -g -Wall -O
 
 SRC := ${wildcard *.c}
-DEP := $(SRC:.c=.d)
-OBJ := $(SRCS:.c=.o)
+OBJ := $(SRC:.c=.o)
 
 all: $(OBJ)
 	ar -r $(TARGET) $(OBJ)
 
 $(OBJ): %.o: %.c
 	$(CC) -c $< -o $@ $(INC) $(CFLAG)
-
-$(DEP):%.d:%.c
-	rm -f $@;
-	$(CC) -MM $< $(INC) > $@
-
--include $(DEP)
 
 clean:
 	-rm -f $(TARGET) *.o *.d
